@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/konva@4.1.3/konva.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+            background-color: #f0f0f0;
+        }
+
+        #MenuPosicions {
+            position: absolute;
+            left: 10px;
+            top: 20px;
+        }
+
+        #MenuAssistencia {
+            position: absolute;
+            left: 880px;
+            top: 20px;
+        }
+
+        #MenuControl {
+            position: absolute;
+            left: 1100px;
+            top: 20px;
+        }
+        #butojson {
+            position: absolute;
+            left: 1250px;
+            top:100px;
+        }
+
+        button {
+
+            margin-left: 3px;
+            display: block;
+            color: #ff4d5c;
+        }
+    </style>
+    <script src="Novapissarra.js"></script>
+
+</head>
+<body>
+
+
+
+<div id="container"></div>
+<div id="MenuPosicions"></div>
+
+<div id="MenuAssistencia"></div>
+<div id="MenuControl"></div>
+
+<div id="butojson">
+
+
+
+</div>
+
+<script src="./prova.js"></script>
+<script src="./Novapissarra.js"></script>
+
+
+<script>
+
+    const  ASSIST_SI      = 1;
+    const ASSIST_NO      = 2;
+    const ASSIST_NOSABEM = 4;
+
+    let assistencia = 0;
+
+
+
+    window.onload = initPagina();
+
+
+
+    function initArraysStatics() {
+
+        Castellers =
+            {
+                "Casteller": [
+                    {id: 1, nom: 'Jordi Baix',      rol: 'Baix',        alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 2, nom: 'Josep Crossa',    rol: 'Crossa',      alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 3, nom: 'Manel Primeres',  rol: 'Rengla',      alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 4, nom: 'Maria Segones',   rol: 'Rengla',      alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 5, nom: 'Pepet Falca',     rol: 'Falca',       alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 6, nom: 'Anna Agulla',     rol: 'Agulla',      alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 7, nom: 'Esteve Lateral',  rol: 'Lateral',     alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 8, nom: 'Queralt Lateral', rol: 'Lateral',     alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 9, nom: 'Laura Angle',     rol: 'Angle',       alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 10, nom: 'Manel MaiMa',    rol: 'MaiMa',       alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 11, nom: 'LLuis MaiMa',    rol: 'MaiMa',       alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 12, nom: 'Iu Contrafort',  rol: 'Contrafort',  alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 13, nom: 'Andreu Cordo',   rol: 'Cordo',       alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 14, nom: 'Alfons Cordo',   rol: 'Cordo',       alcada:  100,       posicio: '',        assistencia: 2},
+
+                    {id: 101, nom: 'Jordi Baix 1',      rol: 'Baix',        alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 102, nom: 'Josep Crossa 1',    rol: 'Crossa',      alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 103, nom: 'Manel Primeres 1',  rol: 'Rengla',      alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 104, nom: 'Maria Segones 1',   rol: 'Rengla',      alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 105, nom: 'Pepet Falca 1',     rol: 'Falca',       alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 106, nom: 'Anna Agulla 1',     rol: 'Agulla',      alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 107, nom: 'Esteve Lateral 1',  rol: 'Lateral',     alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 108, nom: 'Queralt Lateral 1', rol: 'Lateral',     alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 109, nom: 'Laura Angle 1',     rol: 'Angle',       alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 1010, nom: 'Manel MaiMa 1',    rol: 'MaiMa',      alcada:  100,        posicio: '',        assistencia: 1},
+                    {id: 1011, nom: 'LLuis MaiMa 1',    rol: 'MaiMa',       alcada:  100,       posicio: '',        assistencia: 2},
+                    {id: 1012, nom: 'Iu Contrafort 1',  rol: 'Contrafort',  alcada:  100,       posicio: '',        assistencia: 4},
+                    {id: 1013, nom: 'Andreu Cordo 1',   rol: 'Cordo',       alcada:  100,       posicio: '',        assistencia: 1},
+                    {id: 1014, nom: 'Alfons Cordo 1',   rol: 'Cordo',       alcada:  100,       posicio: '',        assistencia: 2},
+
+                ]
+            };
+
+        Plantilla =
+            {
+                "Posicions": [
+                    {id: 1, x: 650, y: 140, width: 100, height: 45, rotation: 0, nom: "Rengla", grup: 1, ordre: 3},
+                    {id: 2, x: 650, y: 190, width: 100, height: 45, rotation: 0, nom: "Rengla", grup: 1, ordre: 2},
+                    {id: 3, x: 650, y: 240, width: 100, height: 45, rotation: 0, nom: "Rengla", grup: 1, ordre: 1},
+                    {id: 4, x: 650, y: 300, width: 100, height: 45, rotation: 0, nom: "Contrafort"},
+                    {id: 5, x: 650, y: 350, width: 100, height: 45, rotation: 0, nom: "Baix"},
+                    {id: 6, x: 650, y: 400, width: 100, height: 45, rotation: 0, nom: "Agulla"},
+                    {id: 7, x: 650, y: 460, width: 100, height: 45, rotation: 0, nom: "Rengla", grup: 2, ordre: 1},
+                    {id: 8, x: 650, y: 510, width: 100, height: 45, rotation: 0, nom: "Rengla", grup: 2, ordre: 2},
+                    {id: 9, x: 650, y: 560, width: 100, height: 45, rotation: 0, nom: "Rengla", grup: 2, ordre: 3},
+
+                    {id: 10, x: 800, y: 322, width: 100, height: 45, rotation: 90, nom: "Crossa"},
+                    {id: 11, x: 860, y: 322, width: 100, height: 45, rotation: 90, nom: "Lateral", grup: 3, ordre: 1},
+                    {id: 12, x: 910, y: 322, width: 100, height: 45, rotation: 90, nom: "Lateral", grup: 3, ordre: 2},
+                    {id: 13, x: 960, y: 322, width: 100, height: 45, rotation: 90, nom: "Lateral", grup: 3, ordre: 3},
+
+                    {id: 14, x: 600, y: 422, width: 100, height: 45, rotation: 270, nom: "Crossa"},
+                    {id: 15, x: 540, y: 422, width: 100, height: 45, rotation: 270, nom: "Lateral", grup: 4, ordre: 3},
+                    {id: 16, x: 490, y: 422, width: 100, height: 45, rotation: 270, nom: "Lateral", grup: 4, ordre: 3},
+                    {id: 17, x: 440, y: 422, width: 100, height: 45, rotation: 270, nom: "Lateral", grup: 4, ordre: 3},
+
+
+                    {id: 18, x: 785, y: 220, width: 100, height: 45, rotation: 45, nom: "Falca", grup: 5, ordre: 1},
+                    {id: 19, x: 825, y: 180, width: 100, height: 45, rotation: 45, nom: "Angle", grup: 5, ordre: 2},
+
+                    {id: 20, x: 530, y: 275, width: 100, height: 45, rotation: -45, nom: "Falca", grup: 6, ordre: 1},
+                    {id: 21, x: 490, y: 235, width: 100, height: 45, rotation: -45, nom: "Angle", grup: 6, ordre: 2},
+
+                    {id: 22, x: 755, y: 490, width: 100, height: 45, rotation: -45,nom: "Falca", grup: 7, ordre: 1},
+                    {id: 23, x: 795, y: 530, width: 100, height: 45, rotation: -45, nom: "Angle", grup: 7, ordre: 2},
+
+                    {id: 24, x: 575, y: 430, width: 100, height: 45, rotation: 45, nom: "Falca", grup: 8, ordre: 1},
+                    {id: 25, x: 535, y: 470, width: 100, height: 45, rotation: 45, nom: "Angle", grup: 8, ordre: 2},
+
+
+                ]
+            };
+
+        config = {
+
+            "Menus": [
+                {menu: "MenuPosicions",    text: "POSICIOS DELS CASTELLES"},
+                {menu: "MenuAssistencia",  text: "ASSISTÈNCIA ALS ASSAIG "},
+                {menu: "MenuControl",      text: "CONTROL"},
+            ],
+
+            "MenuPosicions": [
+                {opcio: "Baix",         text: "Baixos"},
+                {opcio: "Crossa",       text: "Crosses"},
+                {opcio: "Falca",        text: "Falques"},
+                {opcio: "Contrafort",   text: "Contraforts"},
+                {opcio: "Angle",        text: "Angles"},
+                {opcio: "Agulla",       text: "Agulles"},
+                {opcio: "Lateral",      text: "Laterals"},
+                {opcio: "Rengla",       text: "Rengla"},
+                {opcio: "MaiMa",        text: "M&agrave; i M&agrave;"},
+                {opcio: "Cordo",        text: "Cordons"},
+                {opcio: "Tots",         text: "Tots"}
+            ],
+            "MenuAssistencia": [
+
+                {opcio: "Si",       text: "Si"},
+                {opcio: "No",       text: "No"},
+                {opcio: "NoSabem",  text: "No Sabem"},
+
+            ],
+            "MenuControl": [
+                {opcio: "Fonsblanc",      text: "Fons blanc "},
+                {opcio: "ColorxPosicio",    text: "Color x posicions"},
+            //    {opcio: "ColorxAlcada",     text: "colors x al&ccedilada"},
+
+            ],
+
+            "ColorsPosicionsPinya": [
+                {posicio: "Baix",         color: "pink"},
+                {posicio: "Crossa",       color: "blue"},
+                {posicio: "Falca",        color: "Cyan"},
+                {posicio: "Contrafort",   color: "LemonChiffon"},
+                {posicio: "Angle",        color: "LightGreen"},
+                {posicio: "Agulla",       color: "Coral"},
+                {posicio: "Lateral",      color: "Chocolate"},
+                {posicio: "Rengla",       color: "DarkSalmon"},
+                {posicio: "MaiMa",        color: "Yellow"},
+
+
+            ]
+        };
+
+    }
+
+
+    function initPagina() {
+
+
+
+        initArraysStatics ();   //Caregem les dades estatiques .. En un entorn real amb el backend  les carregariem  dinamicament via AJAX o similar
+
+        // Construim els menus
+
+         config.Menus.forEach(function (menu){
+
+             for (let i = 0; i <   config[menu.menu].length; i++) {
+
+                 let button = '<button tipus= '+ menu.menu +' onClick= "seleccio' +  menu.menu + '(\'' + config[menu.menu][i].opcio +
+                     '\');" class="btn btn-primary" id=' + config[menu.menu][i].opcio + '> ' + config[menu.menu][i].text + '</button>';
+
+                 $("#" + menu.menu).append (button);
+             }
+         });
+
+
+    }
+
+
+    function seleccioMenuControl(posicio) {
+
+        colorBoto (posicio, "button[tipus=MenuControl]");
+
+        console.log ( posicio);
+
+        pissarra.mostraColorsPosicions(posicio);
+
+    }
+
+
+    function seleccioMenuPosicions(posicio) {
+
+
+        colorBoto (posicio, "button[tipus=MenuPosicions]");
+        pissarra.mostraLlistatCastellers (posicio);
+
+    }
+
+    function seleccioMenuAssistencia(buto) {
+
+        let color = '';
+        switch (buto) {
+            case 'Si'  :
+
+                if (assistencia & ASSIST_SI ) {
+                    color = '';// Estem activats i desactivem
+                    assistencia = assistencia &  ~ASSIST_SI;
+                } else {
+                    color = 'green';
+                    assistencia = assistencia | ASSIST_SI ;
+                }
+                break;
+            case 'No'  :
+                if (assistencia & ASSIST_NO) {
+                    color = '';
+                    assistencia = assistencia &  ~ASSIST_NO;
+                } else {
+                    color = 'red';
+                    assistencia = assistencia | ASSIST_NO ;
+                }
+                break;
+            case 'NoSabem'  :
+                if (assistencia & ASSIST_NOSABEM) {
+                    color = '';
+                    assistencia = assistencia &  ~ASSIST_NOSABEM;
+                } else {
+                    color = 'orange';
+                    assistencia = assistencia | ASSIST_NOSABEM;
+                }
+                break;
+
+        }
+        document.getElementById(buto).style.background = color;
+        pissarra.mostraLlistatCastellers (undefined,assistencia);
+    }
+
+
+
+
+
+    function colorBoto(buto,grupbotons) {
+
+        var butons = document.querySelectorAll(grupbotons);
+        for (var i = 0, len = butons.length; i < len; i++) {
+            if (butons[i].id == buto) {
+                document.getElementById(butons[i].id).style.background = 'green';
+            } else {
+                document.getElementById(butons[i].id).style.background = 'blue';
+            }
+        }
+    }
+
+
+    let pissarra = new Pissarra(Castellers, Plantilla, config);
+
+    seleccioMenuPosicions ( "Tots");
+    seleccioMenuAssistencia('Si');
+    seleccioMenuControl("Fonsblanc")
+
+
+
+    pissarra.layerCastellers.on('dragend', function (castellerseleccionat) {
+
+        pissarra.finalMovimentcasteller (castellerseleccionat);
+        EnsenyarJSON();
+
+    });
+
+
+    pissarra.layerCastellers.on ('dragstart', function (castellerseleccionat) {
+
+        pissarra.iniciMovimentCasteler(castellerseleccionat);
+
+    });
+
+
+
+    function EnsenyarJSON(){
+        let pinya = pissarra.ObtenirJSONPinya();
+        $("#butojson").empty();
+
+        $('#butojson').append("<br>");
+
+        pinya.forEach(function (casteller){
+            if ( casteller.posicio != "")
+                $('#butojson').append($("<span> id: " + casteller.id + " nom: "+ casteller.nom   +"   "+  "posicio: "+casteller.posicio +" </span><br>"));
+        });
+
+    }
+
+
+
+</script>
+</body>
+</html>
