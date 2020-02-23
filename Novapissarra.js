@@ -284,7 +284,7 @@ iniciaCastellers() {
                 if (posicio.attrs.grup) { // mirem si la posicio forma part d'un grup per veure si hem de moure enrera les posicion
                     if (!this.contestat) {
                         this.contestat = true;
-                        if (confirm("Vols Desplaçar casteller enrrera ? ") == true) {
+                        if (confirm("Vols moure el casteller actual enrera ? ") == true) {
                             this.desplacar = true;
                         }
                     }
