@@ -1,25 +1,19 @@
-
 // Class Pissarra
 
 var Pissarra = class Pissarra {
 
 
-    constructor(llistatcastellers, plantilla,configuracio) {
+    constructor(llistatcastellers, plantilla, configuracio) {
         // Creem l' stage i el layer on
 
-
-
+        this.castellerSeleccionat = false;
         this.prova = new Prova (llistatcastellers, plantilla);
-
         this.contestat = false;
-       // this.desplarcar = false;
+        // this.desplarcar = false;
 
-       //this.agafemConfiguracio ( configuracio);
+        //this.agafemConfiguracio ( configuracio);
 
         this.config = configuracio;
-
-
-
         let width = window.innerWidth;
         let height = window.innerHeight;
 
@@ -30,21 +24,12 @@ var Pissarra = class Pissarra {
         });
 
         this.layerPinya = new Konva.Layer();
-
         this.iniciEntorn(); // Creem l' entorn de treball
         this.iniciaCastellers(); // MOstres el llista de castelles
         this.dibuixaPlantilla ();
-
         this.mostraLlistatCastellers('Tots', 0);
-
         this.stage.add(this.layerPinya, this.layerCastellers);
-
-
-
-
-
     }
-
 
 
 // ********************************************************Inici Entorn ***********
@@ -53,67 +38,67 @@ var Pissarra = class Pissarra {
 //
 
 
-iniciEntorn() {
+    iniciEntorn() {
 
-    var rect_nomscastellers = new Konva.Rect({
-        x: 20,
-        y: 100,
-        width: 300,
-        height: 600,
-        fill: "#dbdbdb",
-        cornerRadius: 10,
-        id: -1
-    });
-    // add the shape to the layer
+        var rect_nomscastellers = new Konva.Rect({
+            x: 20,
+            y: 100,
+            width: 300,
+            height: 600,
+            fill: "#dbdbdb",
+            cornerRadius: 10,
+            id: -1
+        });
+        // add the shape to the layer
 
-    this.layerPinya.add(rect_nomscastellers);
+        this.layerPinya.add(rect_nomscastellers);
 
-    var rect_plantilla = new Konva.Rect({
-        x: 350,
-        y: 100,
-        width: 1000,
-        height: 600,
-        fill: '#dbdbdb',
-        cornerRadius: 10,
-        id: -1
-    });
-    this.layerPinya.add(rect_plantilla);
+        var rect_plantilla = new Konva.Rect({
+            x: 350,
+            y: 100,
+            width: 1000,
+            height: 600,
+            fill: '#dbdbdb',
+            cornerRadius: 10,
+            id: -1
+        });
+        this.layerPinya.add(rect_plantilla);
 
-}
+    }
 
 // Dibuixa la planti
 
 
-dibuixaPlantilla() {
-    for (var i = 0; i < this.prova.numposicions; i++) {
-        this.prova.pinya[i].fill = 'Ivory';
-        this.prova.pinya[i].stroke = 'black';
+    dibuixaPlantilla() {
+        for (var i = 0; i < this.prova.numposicions; i++) {
+            this.prova.pinya[i].fill = 'Ivory';
+            this.prova.pinya[i].stroke = 'black';
 
-        var posicio = new Konva.Rect(this.prova.pinya[i]);
-        this.layerPinya.add(posicio);
+            var posicio = new Konva.Rect(this.prova.pinya[i]);
+            this.layerPinya.add(posicio);
+        }
     }
-}
 
 
-iniciaCastellers() {
+    iniciaCastellers() {
 
-    this.layerCastellers = new Konva.Layer();
+        this.layerCastellers = new Konva.Layer();
 
-    let nomsCastellers;
-    for (var i = 0; i < this.prova.numcastellers; i++) {
-        nomsCastellers = new Konva.Text({
-            text: this.prova.castellers[i].nom,
-            draggable: true,
-            visible: false,
-            fontSize: 15,
-            id: this.prova.castellers[i].id,
-            rol: this.prova.castellers[i].rol,
-            posicio: this.prova.castellers[i].posicio,
-            assistencia : this.prova.castellers[i].assistencia,
-        });
-        this.layerCastellers.add(nomsCastellers);
+        let nomsCastellers;
+        for (var i = 0; i < this.prova.numcastellers; i++) {
+            nomsCastellers = new Konva.Text({
+                text: this.prova.castellers[i].nom,
+                draggable: true,
+                visible: false,
+                fontSize: 15,
+                id: this.prova.castellers[i].id,
+                rol: this.prova.castellers[i].rol,
+                posicio: this.prova.castellers[i].posicio,
+                assistencia: this.prova.castellers[i].assistencia,
+            });
+            this.layerCastellers.add(nomsCastellers);
+        }
     }
-}
 
 
     mostraColorsPosicions(opcio) {
@@ -122,17 +107,14 @@ iniciaCastellers() {
 
         switch (opcio) {
             case 'Fonsblanc':
-                console.log (" ldfldshfjksljh");
                 this.layerPinya.children.each(function (posicio) {
-                    if (posicio.attrs.id != -1){
+                    if (posicio.attrs.id != -1) {
                         posicio.setAttrs ({
                             fill: 'Ivory',
                         });
                     }
-
                 });
                 break;
-
             case 'ColorxPosicio':
                 this.layerPinya.children.each(function (posicio) {
                     config.ColorsPosicionsPinya.forEach(function (posicioColor) {
@@ -144,18 +126,12 @@ iniciaCastellers() {
                     });
                 });
                 break;
-
             case 'ColorxAlcada':
-
-
-
                 break;
         }
 
-
         this.stage.draw();
     }
-
 
 
     mostraLlistatCastellers(rol = this.rol_actual, assistencia = this.assistencia) {
@@ -172,13 +148,18 @@ iniciaCastellers() {
 
         this.layerCastellers.children.each(function (Casteller) {
 
-            if (((Casteller.attrs.rol == rol) || (Casteller.attrs.posicio != "") || (rol == "Tots") ) && ( Casteller.attrs.assistencia & assistencia ))
-            {
-                if ( Casteller.attrs.assistencia & 1 ) { color = 'green'}
-                if ( Casteller.attrs.assistencia & 2 ) { color = 'red'}
-                if ( Casteller.attrs.assistencia & 4 ) { color = 'orange'}
+            if (((Casteller.attrs.rol == rol) || (Casteller.attrs.posicio != "") || (rol == "Tots")) && (Casteller.attrs.assistencia & assistencia)) {
+                if (Casteller.attrs.assistencia & 1) {
+                    color = 'green'
+                }
+                if (Casteller.attrs.assistencia & 2) {
+                    color = 'red'
+                }
+                if (Casteller.attrs.assistencia & 4) {
+                    color = 'orange'
+                }
                 Casteller.setAttrs  ({
-                    'fill' : color,
+                    'fill': color,
                 });
 
                 if (Casteller.attrs.posicio == "") {
@@ -197,13 +178,53 @@ iniciaCastellers() {
             } else {
 
 
-                    Casteller.hide();
+                Casteller.hide();
 
             }
 
         });
 
         this.stage.draw();
+    }
+
+    // clickCasteller
+    //
+    // Parametres
+    //              seleccio: Pasem l'objecte selecionat amb el click
+
+    // Si es el primer click guardem el casteller a this.castellerSeleccionat
+    // Si es la segona vegada intentem moure el casteller a la posicio on s'ha fet el click
+
+    clickCasteller(castellerseleccionat) {
+
+
+        if (!this.castellerSeleccionat) {
+            this.castellerSeleccionat = castellerseleccionat;
+            this.castellerSeleccionat.fontStyle('bold');
+            this.layerCastellers.draw();
+            return;
+
+        } else {
+
+            this.castellerSeleccionat.fontStyle('normal');
+            this.layerCastellers.draw();
+
+            let objectesotacasteller = pissarra.layerPinya.getIntersection({
+                x: castellerseleccionat.attrs.x,
+                y: castellerseleccionat.attrs.y
+            });
+            this.finalMovimentcasteller (this.castellerSeleccionat, objectesotacasteller);
+            this.castellerSeleccionat = false;
+        }
+    }
+
+    clickPosicio(seleccio) {
+
+
+        this.castellerSeleccionat.fontStyle('normal');
+        this.layerCastellers.draw();
+        this.finalMovimentcasteller(this.castellerSeleccionat, seleccio);
+        this.castellerSeleccionat = false;
     }
 
 
@@ -224,39 +245,31 @@ iniciaCastellers() {
     }
 
 
-    finalMovimentcasteller(seleccio) {
-        let castellervell;
+    // finalMovimentCasteller
+    //
+    //    Funcio que es crida per acabar el moviment
+    //
+    //      Parametres:
+    //              seleccio: Pasem l'objecte sellecionat per el moviment
+    //              posiciopinya: Objecte on volem moure el casteller seleccionat
 
-        let castellerSeleccionat = seleccio.target;
-        let posiciopinya = this.layerPinya.getIntersection({
-            x: castellerSeleccionat.attrs.x,
-            y: castellerSeleccionat.attrs.y
-        });
+    //  La funcio  mira on volem moure el casteller:
+    //      Si no hi ha posicio de pinya a sota torna el casteller al menu de casteller
+    //      Si hi ha posicio cridem a posicionar castelelr per tal de col.locar-lo al lloc
 
-        if (posiciopinya.attrs.id != -1) {   // MIrem si deixem el casteller en una posicio correcte
+
+    finalMovimentcasteller(castellerSeleccionat, posiciopinya) {
+
+        if (posiciopinya.attrs.id != -1) {   // Mirem si posem el casteller en una posicio correcte
             // la posicio es correcte
-
-            if (castellervell = this.posicioOcupada (posiciopinya)) // Mirem si la posico ja esta ocupada
-            {
-                // La posicio  esta ocupada i en aquest cas movem el casteller que ocupa l aposico al menu
-
-
-                //  this.posicionarCasteller( 'AssignarMenu', "", castellervell);
-
-            }
-
-
+            this.posicioOcupada (posiciopinya)
             this.posicionarCasteller('AssignarNovaPosicio', posiciopinya, castellerSeleccionat);
             this.mostraLlistatCastellers();
-
-        } else { //  Hem Arrastrat el casteller on no  hi ha posició i per tan l'enviem al menu
-
+        } else { //  Hem Arrastrat el casteller on no  hi ha posició a la pinya i per tan l'enviem al menu
             this.posicionarCasteller ('AssignarMenu', "", castellerSeleccionat);
             this.mostraLlistatCastellers();
         }
-
         this.layerCastellers.draw();
-
     }
 
 
@@ -276,11 +289,12 @@ iniciaCastellers() {
     posicioOcupada(posicio) {
 
 
-        let posiciodarrera
+        let posiciodarrera;
         let llistatcastellers = this.layerCastellers.getChildren();
 
         for (let i = 0; i < llistatcastellers.length; i++) { // MIrem s per  els castellers si hi ha algun en la posicio on hem arrastrat
-            if (llistatcastellers[i].attrs.posicio == posicio.attrs.id) {// La posicio esta ocupada
+
+            if (llistatcastellers[i].attrs.posicio == posicio.attrs.id) {// La posicio esta ocupada;
                 if (posicio.attrs.grup) { // mirem si la posicio forma part d'un grup per veure si hem de moure enrera les posicion
                     if (!this.contestat) {
                         this.contestat = true;
@@ -288,7 +302,7 @@ iniciaCastellers() {
                             this.desplacar = true;
                         }
                     }
-                    if (this.desplacar)  {
+                    if (this.desplacar) {
                         if (posiciodarrera = this.posicioDarrera(posicio.attrs.grup, posicio.attrs.ordre)) {
                             this.posicioOcupada(posiciodarrera);
                             this.posicionarCasteller ('MoureEnrrera', posiciodarrera, llistatcastellers[i]);
@@ -300,10 +314,10 @@ iniciaCastellers() {
                 }
                 this.contestat = false;
                 this.posicionarCasteller('AssignarMenu', "", llistatcastellers[i]);
-                return llistatcastellers[i];
+                return;
             }
         }
-        return false;
+        return;
     }
 
 
@@ -314,6 +328,8 @@ iniciaCastellers() {
             case 'AssignarNovaPosicio':
 
                 let tamanyTextActual = casteller.getClientRect();
+
+
                 casteller.setAttrs ({
                     'x': posiciopinya.attrs.x,
                     'y': posiciopinya.attrs.y,
@@ -321,7 +337,8 @@ iniciaCastellers() {
                     'fontFamily': 'Arial',
                     scaleX: posiciopinya.attrs.width / tamanyTextActual.width,
                     scaleY: posiciopinya.attrs.height / tamanyTextActual.height,
-                    posicio: posiciopinya.attrs.id
+                    posicio: posiciopinya.attrs.id,
+                    //  fontStyle: 'bold',
                 });
 
                 return;
@@ -347,10 +364,9 @@ iniciaCastellers() {
                     scaleX: 1,
                     scaleY: 1,
                     posicio: "",
+                    //   fontStyle: 'normal',
                 });
-
         }
-
 
     }
 
@@ -358,7 +374,7 @@ iniciaCastellers() {
     ObtenirJSONPinya() {
         let pinyaJSON = [];
         this.layerCastellers.children.each(function (Casteller) {
-            console.log ( Casteller)
+
             pinyaJSON.push({
                 id: Casteller.attrs.id,
                 nom: Casteller.attrs.text,
